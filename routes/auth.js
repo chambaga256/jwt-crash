@@ -57,7 +57,45 @@ res.json({
   token
 })
 
+router.post('/login', async(req,res)=>{
+  const {password,email}=req.body;
+  let user =users.find((user)=>{
+    return user.email==email
+  });
+  if(!user){
+    return res.status(480).json({
+     "errorrs":[
+       {
+         "msg":"Invalid Crendials",
+       }
+     ]
+   })
+ }
+
+})
+
+  const isMatch =await bcrypt.compare(password, user.password)
+  if(!isMatch){
+    return res.status(480).json({
+     "errorrs":[
+       {
+         "msg":"Invalid Crendials",
+       }
+     ]
+   });const token = await jwt.sign({
+    email
+  }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5",{
+    expiresIn:3500000
+  })
+  
+  res.json({
+    token
+  })
+  }
+
 });
+
+
 
 router.get("/all",(req,res)=>{
   res.json();
